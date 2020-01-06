@@ -54,7 +54,7 @@ fn fetch_and_parse_releases() -> Result<Vec<semver::Version>, MyError> {
     let releases = use_self_update()?;
     let versions: Vec<semver::Version> = releases
         .iter()
-        .flat_map(|release| {
+        .filter_map(|release| {
             semver::Version::parse(release.version()).ok()
         })
         .filter(|version| {
