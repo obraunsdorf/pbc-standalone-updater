@@ -54,8 +54,8 @@ fn fetch_and_parse_releases() -> Result<Vec<semver::Version>, MyError> {
     let releases = use_self_update()?;
     let versions: Vec<semver::Version> = releases
         .iter()
-        .map(|release| {
-            semver::Version::parse(release.version()).unwrap() // TODO: avoid unwrap!
+        .flat_map(|release| {
+            semver::Version::parse(release.version()).ok()
         })
         .filter(|version| {
             let (major, minor, patch) = CURRENT_PBC_VERSION;
